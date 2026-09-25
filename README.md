@@ -1,2 +1,2 @@
 # dwec
-Desarrollo Web En Servidor Cliente
+Desarrollo Web En Entorno Cliente
