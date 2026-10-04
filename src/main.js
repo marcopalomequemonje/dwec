@@ -1,3 +1,2 @@
 import { catalogoInicial } from "./catalogo.js";
-
-console.table(catalogoInicial);
+import { AJUSTE_ESTADO, multiplicadorVolumen } from "./reglas.js";
