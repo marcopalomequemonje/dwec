@@ -15,3 +15,20 @@ export function multiplicadorVolumen(unidades) {
     return 1;
   }
 }
+
+const redondear = (valor) => Math.round(valor * 100) / 100;
+
+//Precio por unidad aplicando Tabla A y Tabla B
+export function precioUnitario({precioBase, estado}, unidades = 1) {
+    const precioConEstado = precioBase * AJUSTE_ESTADO[estado];
+    return redondear(precioConEstado * multiplicadorVolumen(unidades));
+}
+
+//total
+export const totalVenta = (producto, unidades) =>
+    redondear(precioUnitario(producto, unidades) * unidades);
+
+// tabla c: stock bajo 
+export const UMBRAL_STOCK_BAJO = 3;
+
+export const tieneStockBajo = ({ stock }) => stock < UMBRAL_STOCK_BAJO;
