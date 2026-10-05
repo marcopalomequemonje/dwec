@@ -1,6 +1,6 @@
 import { catalogoInicial, CATEGORIAS } from "./catalogo.js";
 import { listarCatalogo, filtrarPorCategoria, filtrarStockBajo, formatearProducto, formatearEuros } from "./vistas.js";
-import { buscarPorId, buscarPorTitulo, venderProducto, crearRegistroVentas } from "./inventario.js";
+import { buscarPorId, buscarPorTitulo, venderProducto, reponerProducto, crearRegistroVentas } from "./inventario.js";
 import { precioUnitario, totalVenta } from "./reglas.js";
 
 const MENU = `=== RETROSTOCK ===
@@ -127,35 +127,57 @@ Stock restante: ${producto.stock - unidades}`);
     return venderProducto(catalogo, producto.id, unidades);
 };
 
-export function iniciarMenu() {
-  let catalogo = catalogoInicial;
-  const registro = crearRegistroVentas();
-  let opcion;
 
-  do {
-    opcion = prompt(MENU) ?? "6";
-
-    switch (opcion) {
-      case "1":
-        verCatalogo(catalogo);
-        break;
-      case "2":
-        buscarProducto(catalogo);
-        break;
-      case "3":
-        catalogo = registrarVenta(catalogo, registro);
-        break;
-      case "4":
-        console.log("Reponer stock: pendiente");
-        break;
-      case "5":
-        console.log("Informe de caja: pendiente");
-        break;
-      case "6":
-        console.log("Saliendo de RetroStock...");
-        break;
-      default:
-        alert("Opción no válida. Elige un número del 1 al 6.");
+// Opción 4 del menú: repone stock y devuelve el catálogo actualizado
+const reponerStock = (catalogo) => {
+    const producto = elegirProducto(catalogo);
+    if (!producto) {
+        alert("Producto no válido.");
+        return catalogo;
     }
-  } while (opcion !== "6");
+
+    const unidades = pedirCantidad();
+    if (!unidades) {
+        alert("Cantidad no válida.");
+        return catalogo;
+    }
+
+    console.log(`--- Stock repuesto ---
+${producto.titulo}: ${producto.stock} → ${producto.stock + unidades} unidades`);
+
+    return reponerProducto(catalogo, producto.id, unidades);
+};
+
+
+export function iniciarMenu() {
+    let catalogo = catalogoInicial;
+    const registro = crearRegistroVentas();
+    let opcion;
+
+    do {
+        opcion = prompt(MENU) ?? "6";
+
+        switch (opcion) {
+            case "1":
+                verCatalogo(catalogo);
+                break;
+            case "2":
+                buscarProducto(catalogo);
+                break;
+            case "3":
+                catalogo = registrarVenta(catalogo, registro);
+                break;
+            case "4":
+                catalogo = reponerStock(catalogo);
+                break;
+            case "5":
+                console.log("Informe de caja: pendiente");
+                break;
+            case "6":
+                console.log("Saliendo de RetroStock...");
+                break;
+            default:
+                alert("Opción no válida. Elige un número del 1 al 6.");
+        }
+    } while (opcion !== "6");
 }
