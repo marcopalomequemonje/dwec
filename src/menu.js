@@ -1,5 +1,6 @@
 import { catalogoInicial, CATEGORIAS } from "./catalogo.js";
-import { listarCatalogo, filtrarPorCategoria, filtrarStockBajo } from "./vistas.js";
+import { listarCatalogo, filtrarPorCategoria, filtrarStockBajo, formatearProducto } from "./vistas.js";
+import { buscarPorId, buscarPorTitulo } from "./inventario.js";
 
 const MENU = `=== RETROSTOCK ===
 1. Ver catálogo
