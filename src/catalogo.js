@@ -21,3 +21,6 @@ export const catalogoInicial = [
   { id: 11, titulo: "FIFA 98", plataforma: "PS1", categoria: "Deportes", precioBase: 15, estado: "solo-cartucho", stock: 9 },
   { id: 12, titulo: "NBA Jam", plataforma: "SNES", categoria: "Deportes", precioBase: 22, estado: "nuevo-precintado", stock: 5 },
 ]
+
+// Categorías disponibles para elegirlas por número en el menú
+export const CATEGORIAS = ["RPG", "Lucha", "Plataformas", "Carreras", "Puzzle", "Deportes"];
