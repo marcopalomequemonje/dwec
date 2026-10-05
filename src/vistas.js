@@ -8,7 +8,7 @@ export const formatearEuros = (cantidad) =>
 export const formatearProducto = (producto) => {
   const { id, titulo, plataforma, categoria, estado, stock } = producto;
   const aviso = tieneStockBajo(producto) ? " ⚠️ Stock bajo" : "";
-  return `#${id} ${titulo} (${plataforma}) · ${categoria} · ${estado} · ${formatearEuros(precioUnitario(producto))} · Stock: ${stock}${aviso}`;
+  return "#" + id + " " + titulo + " (" + plataforma + ") · " + categoria + " · " + estado + " · " + formatearEuros(precioUnitario(producto)) + " · Stock: " + stock + aviso;
 };
 
 // Vista Todo: map() convierte cada producto en una línea
