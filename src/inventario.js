@@ -18,3 +18,24 @@ export const venderProducto = (catalogo, id, unidades) =>
     ...producto,
     stock: producto.stock - unidades,
   }));
+
+  // Closure: guarda las ventas de la sesión en una variable privada.
+// Desde fuera solo se puede usar con registrar, contar y obtenerVentas.
+export function crearRegistroVentas() {
+  let ventas = [];
+
+  return {
+    // Añade una venta (creando un array nuevo, sin push)
+    registrar: function (venta) {
+      ventas = [...ventas, venta];
+    },
+    // Dice cuántas ventas se han hecho
+    contar: function () {
+      return ventas.length;
+    },
+    // Devuelve una copia de las ventas, para que nadie pueda cambiar la original
+    obtenerVentas: function () {
+      return [...ventas];
+    },
+  };
+}
