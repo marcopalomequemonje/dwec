@@ -1,5 +1,9 @@
 import { precioUnitario, tieneStockBajo } from "./reglas.js";
 
+// Formatea un número como euros: 42.75 → "42,75 €"
+export const formatearEuros = (cantidad) =>
+  `${cantidad.toFixed(2).replace(".", ",")} €`;
+
 // Convierte UN producto en una línea de texto
 export const formatearProducto = (producto) => {
   const { id, titulo, plataforma, categoria, estado, stock } = producto;
