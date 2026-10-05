@@ -50,6 +50,34 @@ const verCatalogo = (catalogo) => {
   }
 };
 
+const SUBMENU_BUSCAR = `=== BUSCAR PRODUCTO ===
+1. Por id
+2. Por título`;
+
+// Opción 2 del menú: buscar por id o por título parcial
+const buscarProducto = (catalogo) => {
+  const modo = prompt(SUBMENU_BUSCAR);
+  let encontrado;
+
+  if (modo === "1") {
+    const id = Number(prompt("Escribe el id del producto:"));
+    encontrado = buscarPorId(catalogo, id);
+  } else if (modo === "2") {
+    const texto = prompt("Escribe parte del título:")?.trim() ?? "";
+    if (!texto) {
+      alert("No has escrito nada.");
+      return;
+    }
+    encontrado = buscarPorTitulo(catalogo, texto);
+  } else {
+    alert("Opción no válida.");
+    return;
+  }
+
+  console.log(encontrado ? formatearProducto(encontrado) : "No se ha encontrado ningún producto.");
+};
+
+
 export function iniciarMenu() {
   let catalogo = catalogoInicial;
   let opcion;
@@ -62,7 +90,7 @@ export function iniciarMenu() {
         verCatalogo(catalogo);
         break;
       case "2":
-        console.log("Buscar producto: pendiente");
+       buscarProducto(catalogo);
         break;
       case "3":
         console.log("Registrar venta: pendiente");
