@@ -171,10 +171,10 @@ export function iniciarMenu() {
                 catalogo = reponerStock(catalogo);
                 break;
             case "5":
-                console.log("Informe de caja: pendiente");
+                console.log("Informe de caja: No se hacerlo");
                 break;
             case "6":
-                console.log("Saliendo de RetroStock...");
+                console.log(`Saliendo de RetroStock... Ventas realizadas en esta sesión: ${registro.contar()}`);
                 break;
             default:
                 alert("Opción no válida. Elige un número del 1 al 6.");
