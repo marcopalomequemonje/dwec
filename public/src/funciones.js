@@ -93,6 +93,10 @@ export const reponerStock = (catalogo, producto, cantidad) => {
         return nuevoCatalogo;
     }
 }
+
+
+
+
 //COMO SE HACE A LO ANTIGUO
 /*function descuentoPorVolumen(unidad) {
     if (unidad === 1) {
