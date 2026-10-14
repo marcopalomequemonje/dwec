@@ -1,19 +1,11 @@
-const tipoEstados = [
-    {estado:"nuevo-precintado",
-        ajuste: 0.25
-    },
-    {estado:"usado-como-nuevo",
-        ajuste: 0
-    },
-    {estado:"usado-caja-danada",
-        ajuste: -0.15
-    },
-    {estado:"solo-cartucho",
-        ajuste: -0.3
-    }
+export const tipoEstados = [
+    "nuevo-precintado",
+    "usado-como-nuevo",
+    "usado-caja-danada",
+    "solo-cartucho",
 ];
 
-const productos = [
+export const catalogo = [
     {
         id: 1,
         titulo: "Grand Theft Auto VI",
