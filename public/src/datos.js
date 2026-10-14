@@ -1,0 +1,113 @@
+const tipoEstados = [
+    {estado:"nuevo-precintado",
+        ajuste: 0.25
+    },
+    {estado:"usado-como-nuevo",
+        ajuste: 0
+    },
+    {estado:"usado-caja-danada",
+        ajuste: -0.15
+    },
+    {estado:"solo-cartucho",
+        ajuste: -0.3
+    }
+];
+
+const productos = [
+    {
+        id: 1,
+        titulo: "Grand Theft Auto VI",
+        plataforma: "PS5",
+        estado: tipoEstados[0],
+        precioBase: 60,
+        stock: 10,
+    },
+    {
+        id: 2,
+        titulo: "The Legend of Zelda: Ocarina of Time",
+        plataforma: "Nintendo 64",
+        estado: tipoEstados[3],
+        precioBase: 45,
+        stock: 3,
+    },
+    {
+        id: 3,
+        titulo: "Super Mario World",
+        plataforma: "SNES",
+        estado: tipoEstados[2],
+        precioBase: 35,
+        stock: 5,
+    },
+    {
+        id: 4,
+        titulo: "Final Fantasy VII",
+        plataforma: "PS1",
+        estado: tipoEstados[1],
+        precioBase: 40,
+        stock: 2,
+    },
+    {
+        id: 5,
+        titulo: "Pokémon Rojo",
+        plataforma: "Game Boy",
+        estado: tipoEstados[3],
+        precioBase: 30,
+        stock: 0,
+    },
+    {
+        id: 6,
+        titulo: "Sonic the Hedgehog 2",
+        plataforma: "Mega Drive",
+        estado: tipoEstados[2],
+        precioBase: 20,
+        stock: 4,
+    },
+    {
+        id: 7,
+        titulo: "Metal Gear Solid",
+        plataforma: "PS1",
+        estado: tipoEstados[0],
+        precioBase: 80,
+        stock: 1,
+    },
+    {
+        id: 8,
+        titulo: "Halo 2",
+        plataforma: "Xbox",
+        estado: tipoEstados[1],
+        precioBase: 15,
+        stock: 6,
+    },
+    {
+        id: 9,
+        titulo: "Elden Ring",
+        plataforma: "PS5",
+        estado: tipoEstados[1],
+        precioBase: 50,
+        stock: 8,
+    },
+    {
+        id: 10,
+        titulo: "Mario Kart 8 Deluxe",
+        plataforma: "Switch",
+        estado: tipoEstados[0],
+        precioBase: 55,
+        stock: 0,
+    },
+    {
+        id: 11,
+        titulo: "Crash Bandicoot",
+        plataforma: "PS1",
+        estado: tipoEstados[2],
+        precioBase: 25,
+        stock: 7,
+    },
+    {
+        id: 12,
+        titulo: "The Last of Us Part II",
+        plataforma: "PS4",
+        estado: tipoEstados[1],
+        precioBase: 20,
+        stock: 9,
+    },
+];
