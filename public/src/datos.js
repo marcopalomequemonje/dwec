@@ -3,6 +3,7 @@ export const tipoEstados = [
     "usado-como-nuevo",
     "usado-caja-danada",
     "solo-cartucho",
+    "coleccionista"
 ];
 
 export const catalogo = [
@@ -99,6 +100,14 @@ export const catalogo = [
         titulo: "The Last of Us Part II",
         plataforma: "PS4",
         estado: tipoEstados[1],
+        precioBase: 20,
+        stock: 9,
+    },
+      {
+        id: 13,
+        titulo: "Juego de Josemi II",
+        plataforma: "PS4",
+        estado: tipoEstados[4],
         precioBase: 20,
         stock: 9,
     },

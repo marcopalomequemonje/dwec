@@ -12,6 +12,9 @@ export const recargoDescuentoEstado = (producto) => {
     else if (producto.estado === "solo-cartucho") {
         return producto.precioBase * (-0.3);
     }
+    else if (producto.estado === "coleccionista"){
+        return producto.precioBase * 0.6;
+    }
 }
 
 export const precioRealProducto = (producto) => {
@@ -93,6 +96,16 @@ export const reponerStock = (catalogo, producto, cantidad) => {
         return nuevoCatalogo;
     }
 }
+
+//En el listado muestra para cada producto que porcentaje de stock tiene sobre un max 8, calculando sin guardarlo en el catalogo original
+
+//despues con reduce calcula el valor del total que es precio venta con stck bajo (precio venta + stcok)
+
+
+
+
+
+
 
 
 
