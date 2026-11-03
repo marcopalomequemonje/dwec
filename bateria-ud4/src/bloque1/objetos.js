@@ -57,5 +57,8 @@ export function copiaProfunda(socio) {
 //        ficha(crearLibro("Momo", "Ende", 300)) → "titulo: Momo · autor: Ende · paginas: 300 · prestado: false"
 //        (pista: Object.entries + filter + map + join)
 export function ficha(libro) {
-  
+  return Object.entries(libro)
+    .filter(([,valor]) => typeof valor !== "function")
+    .map(([clave,valor]) => `${clave}: ${valor}`)
+    .join(" · ")
 }
