@@ -50,12 +50,12 @@ export function contarPorAutor(libros) {
 //        socio = { nombre: "Ana", direccion: { ciudad: "Cádiz" }, prestamos: ["111"] }
 //        Cuidado: { ...socio } no basta. ¿Por qué? (predicción p3)
 export function copiaProfunda(socio) {
-  
+  return {...socio, direccion:{...socio.direccion}, prestamos:[...socio.prestamos]}
 }
 
 // ✍️ 4 · Una línea con todas las propiedades del libro que NO son funciones, separadas por « · ».
 //        ficha(crearLibro("Momo", "Ende", 300)) → "titulo: Momo · autor: Ende · paginas: 300 · prestado: false"
 //        (pista: Object.entries + filter + map + join)
 export function ficha(libro) {
-  throw new Error("Sin hacer");
+  
 }
