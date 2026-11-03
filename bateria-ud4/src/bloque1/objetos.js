@@ -26,7 +26,7 @@ export function leerPropiedad(objeto, clave) {
 // 🪜 2 · ¿Tiene el objeto esa propiedad COMO PROPIA (no heredada)?
 //        tienePropia({ a: 1 }, "a") → true · tienePropia({ a: 1 }, "toString") → false
 export function tienePropia(objeto, clave) {
-  throw new Error("Sin hacer");
+  return Object.hasOwn(objeto,clave)
 }
 
 // ✍️ TU TURNO ─────────────────────────────────────────────────────────────────
