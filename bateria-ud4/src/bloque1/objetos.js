@@ -39,14 +39,18 @@ export function marcarPrestado(libro) {
 // ✍️ 2 · Cuenta cuántos libros hay de cada autor.
 //        contarPorAutor([{ autor: "Ende" }, { autor: "Tolkien" }, { autor: "Ende" }]) → { Ende: 2, Tolkien: 1 }
 export function contarPorAutor(libros) {
-  
+  const cuenta = {};
+  for (const libro of libros){
+    cuenta[libro.autor] = (cuenta[libro.autor] ?? 0) + 1;
+  }
+  return cuenta;
 }
 
 // ✍️ 3 · Copia un socio de forma que cambiar la COPIA no cambie nunca el ORIGINAL.
 //        socio = { nombre: "Ana", direccion: { ciudad: "Cádiz" }, prestamos: ["111"] }
 //        Cuidado: { ...socio } no basta. ¿Por qué? (predicción p3)
 export function copiaProfunda(socio) {
-  throw new Error("Sin hacer");
+  
 }
 
 // ✍️ 4 · Una línea con todas las propiedades del libro que NO son funciones, separadas por « · ».
