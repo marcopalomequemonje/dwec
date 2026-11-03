@@ -33,13 +33,13 @@ export function tienePropia(objeto, clave) {
 // ✍️ 1 · Devuelve un libro NUEVO igual que el que te pasan, pero con prestado: true.
 //        El original NO puede cambiar (el comprobador te lo pasa congelado).
 export function marcarPrestado(libro) {
-  throw new Error("Sin hacer");
+  return {...libro, prestado:true}
 }
 
 // ✍️ 2 · Cuenta cuántos libros hay de cada autor.
 //        contarPorAutor([{ autor: "Ende" }, { autor: "Tolkien" }, { autor: "Ende" }]) → { Ende: 2, Tolkien: 1 }
 export function contarPorAutor(libros) {
-  throw new Error("Sin hacer");
+  
 }
 
 // ✍️ 3 · Copia un socio de forma que cambiar la COPIA no cambie nunca el ORIGINAL.
