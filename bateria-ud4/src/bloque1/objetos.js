@@ -20,7 +20,7 @@ export function crearLibro(titulo, autor, paginas) {
 // 🪜 1 · Devuelve el valor de la propiedad cuyo nombre está en `clave`.
 //        leerPropiedad({ a: 1, "b c": 2 }, "b c") → 2      (pista: con punto no se puede; con corchetes, sí)
 export function leerPropiedad(objeto, clave) {
-  throw new Error("Sin hacer");
+  return objeto[clave];
 }
 
 // 🪜 2 · ¿Tiene el objeto esa propiedad COMO PROPIA (no heredada)?
