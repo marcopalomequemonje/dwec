@@ -23,7 +23,7 @@ export class Columna {
 
   // 3 · get tareas: una COPIA del array (que nadie pueda tocar el tuyo desde fuera)
   get tareas (){
-    
+    return {...this.#tareas}
   }
   // 4 · añadir(tarea): TypeError si no es instanceof Tarea · Error («… está llena …») si está
   //     llena · si no, la guarda y la devuelve
