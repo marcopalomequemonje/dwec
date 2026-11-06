@@ -23,17 +23,29 @@ export class Columna {
 
   // 2 · get llena: true si hay límite y ya hay tantas tareas como el límite
   get llena (){
-    if(this.limiteWip && this.limiteWip === this.#tareas){
+    if(this.limiteWip && this.limiteWip === this.#tareas.length){
       return true
+    }
+    else{
+      return false
     }
   }
   // 3 · get tareas: una COPIA del array (que nadie pueda tocar el tuyo desde fuera)
   get tareas (){
-    return {...this.#tareas}
+    return [...this.#tareas]
   }
   // 4 · añadir(tarea): TypeError si no es instanceof Tarea · Error («… está llena …») si está
   //     llena · si no, la guarda y la devuelve
-
+  añadir(tarea){
+    if(!(tarea instanceof Tarea)){
+      throw new TypeError("Esto no pertenece a una Tarea")
+    }
+    if (this.llena){
+      throw new Error ("Está llena")
+    }
+    this.#tareas.push(tarea)
+    return tarea
+  }
   // 5 · quitar(id): la saca del array y la devuelve · Error («… no está …») si no la encuentra
   //     Pista: findIndex + splice
   // 6 · tiene(id): true / false. Pista: some
