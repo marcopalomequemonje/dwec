@@ -9,18 +9,24 @@ export class Columna {
   constructor(nombre, limiteWip = null) {
     // 1 · nombre: texto no vacío (sin espacios a los lados) → si no, TypeError
     //     limiteWip: null (sin límite) o un entero ≥ 1 → si no, RangeError
-    if (nombre.trim()=== ""){throw new TypeError("El texto no puede estar vacio");}
+    if (typeof nombre !== "string" || nombre.trim() === "") {
+      throw new TypeError("El nombre no puede estar vacío");
+    }
     this.nombre = nombre.trim()
-    if (limiteWip === null || (Number.isInteger(limiteWip)) >= 1){
+    if (limiteWip === null || (Number.isInteger(limiteWip)) && limiteWip >= 1){
       this.limiteWip = limiteWip;
     }
     else {
-      throw new RangeError ("Valor no valido, tiene que ser null o entero")
+      throw new RangeError ("Valor no valido, tiene que ser null o entero mayor o igual que 1")
     }
   }
 
   // 2 · get llena: true si hay límite y ya hay tantas tareas como el límite
-
+  get llena (){
+    if(this.limiteWip && this.limiteWip === this.#tareas){
+      return true
+    }
+  }
   // 3 · get tareas: una COPIA del array (que nadie pueda tocar el tuyo desde fuera)
   get tareas (){
     return {...this.#tareas}
