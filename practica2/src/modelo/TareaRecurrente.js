@@ -27,15 +27,18 @@ export class TareaRecurrente extends Tarea{
   siguiente (){
     const nuevoLimite = new Date(this.limite);
     nuevoLimite.setDate(nuevoLimite.getDate()+this.cadaDias);
-    new TareaRecurrente(this.titulo, this.prioridad, nuevoLimite, this.cadaDias);
+    return new TareaRecurrente(this.titulo, this.prioridad, nuevoLimite, this.cadaDias);
   }
 
   // 7 · Sobrescribe alCompletar(): en vez de [], devuelve [la siguiente].
   alCompletar (){
-    return [this.siguiente]
+    return [this.siguiente()]
   }
   // 8 · Sobrescribe toString(): lo del padre + " · 🔁 cada N días".
-  
+  toString (){
+    //LO DEL PADRE
+    return super.toString() + ` · 🔁 cada ${this.cadaDias} días`
+  }
 }
 
 // Comprueba con:  docker compose run --rm web npm test 2-recurrente
