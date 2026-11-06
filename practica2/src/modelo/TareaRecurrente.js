@@ -31,8 +31,11 @@ export class TareaRecurrente extends Tarea{
   }
 
   // 7 · Sobrescribe alCompletar(): en vez de [], devuelve [la siguiente].
-
+  alCompletar (){
+    return [this.siguiente]
+  }
   // 8 · Sobrescribe toString(): lo del padre + " · 🔁 cada N días".
+  
 }
 
 // Comprueba con:  docker compose run --rm web npm test 2-recurrente
