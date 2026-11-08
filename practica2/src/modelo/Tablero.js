@@ -24,13 +24,22 @@ export class Tablero {
 
   // static desde(datos, limiteEnCurso): un Tablero con una tarea por cada objeto de datos
   //   (usa crearTarea)
-
+  
   // columna(nombre): la Columna, o un Error si no existe (que el mensaje lleve el nombre)
+  columna(nombre) {
+    if (!this.#columnas.has(nombre)) { //CON .has PREGUNTA SI EXISTE
+      throw new Error(`No existe la columna ${nombre}`);
+    }
+    return this.#columnas.get(nombre);
+  }
   // get columnas: array con las tres columnas, en orden
-
+  get columnas() {
+    return [...this.#columnas.values()]; //.values() todas las columnas del Map, en el orden en que las meti con set
+  }
   // crearTarea(datos): TareaRecurrente si datos trae cadaDias, Tarea si no → a «Por hacer»
   //   y la devuelve. datos es un objeto { titulo, prioridad, limite, cadaDias }: saca cada campo
   //   y pásaselo al constructor, en su orden (new Tarea(datos) NO vale: espera el título)
+
 
   // buscar(id): la tarea, esté en la columna que esté, o null
   // dondeEsta(id): la Columna donde está, o null
