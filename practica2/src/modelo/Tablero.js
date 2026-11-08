@@ -11,6 +11,8 @@ export class Tablero {
   static COLUMNAS = Object.freeze(["Por hacer", "En curso", "Hecho"]);
   static VERSION_DATOS = 1; // (bloque C) si algún día cambia el formato guardado, se sube
   // Privado: #columnas, un Map nombre → Columna
+  #columnas = new Map();
+  
 
   // ✍️ A3 ──────────────────────────────────────────────────────────────────────
   constructor(limiteEnCurso = 3) {
