@@ -55,12 +55,26 @@ export class Columna {
     return quitadas[0];
   }     
   // 6 · tiene(id): true / false. Pista: some
-tiene(id){
-  return this.#tareas.some((t) => t.id === id)
-}
+  tiene(id){
+    return this.#tareas.some((t) => t.id === id)
+  }
   // 7 · ordenadas(): un array NUEVO ordenado: primero prioridad alta (usa t.peso), y a igual
   //     prioridad, el límite más cercano; las que no tienen límite, al final.
   //     Pista: [...this.#tareas].sort((a, b) => …) — ¿por qué la copia?
+  ordenadas(){
+    const nuevoOrdenado = [...this.#tareas].sort((a, b)=> {
+      if (a.peso !== b.peso){
+        return b.peso - a.peso //SI LAS PRIORIDADES SON DISTINTAS, LA ALTA PRIMERO
+      }
+      if (a.limite === null && b.limite === null) {
+        return 0; //SI NINGUNA TIENE FECHA, EMPATE
+      }
+      if (a.limite === null && b.limite !== null) { return 1 } //SI SOLO B TIENE FECHA, B PRIMERO
+      if (a.limite !== null && b.limite === null) { return -1 } //SI SOLO A TIENE FECHA, A PRIMERO
+      return a.limite - b.limite; //SI LAS 2 TIENEN FECHA, LA MÁS CERCANA PRIMERO
+    })
+    return nuevoOrdenado;
+  }
 }
 
 // Comprueba con:  docker compose run --rm web npm test 3-columna
