@@ -24,7 +24,13 @@ export class Tablero {
 
   // static desde(datos, limiteEnCurso): un Tablero con una tarea por cada objeto de datos
   //   (usa crearTarea)
-  
+  static desde(datos, limiteEnCurso) {
+    const tablero = new Tablero(limiteEnCurso);
+    for (const d of datos) {
+      tablero.crearTarea(d);
+    }
+    return tablero;
+  }
   // columna(nombre): la Columna, o un Error si no existe (que el mensaje lleve el nombre)
   columna(nombre) {
     if (!this.#columnas.has(nombre)) { //CON .has PREGUNTA SI EXISTE
@@ -39,7 +45,15 @@ export class Tablero {
   // crearTarea(datos): TareaRecurrente si datos trae cadaDias, Tarea si no → a «Por hacer»
   //   y la devuelve. datos es un objeto { titulo, prioridad, limite, cadaDias }: saca cada campo
   //   y pásaselo al constructor, en su orden (new Tarea(datos) NO vale: espera el título)
-
+  crearTarea(datos) {
+    let tarea;
+    if (datos.cadaDias !== undefined) {
+      tarea = new TareaRecurrente(datos.titulo, datos.prioridad, datos.limite, datos.cadaDias);
+    } else {
+      tarea = new Tarea(datos.titulo, datos.prioridad, datos.limite);
+    }
+    return this.columna("Por hacer").añadir(tarea);
+  }
 
   // buscar(id): la tarea, esté en la columna que esté, o null
   // dondeEsta(id): la Columna donde está, o null
