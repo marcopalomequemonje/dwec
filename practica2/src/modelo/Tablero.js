@@ -56,8 +56,23 @@ export class Tablero {
   }
 
   // buscar(id): la tarea, esté en la columna que esté, o null
-  // dondeEsta(id): la Columna donde está, o null
+  buscar(id) {
+    const columna = this.dondeEsta(id)
+    if (columna === null) {
+      return null
+    }
+    return columna.tareas.find((t) => t.id === id)
+  }
 
+  // dondeEsta(id): la Columna donde está, o null
+  dondeEsta(id){
+    for(const columna of this.columnas){
+      if (columna.tiene(id)){
+        return columna;
+      }
+    }
+    return null;
+  }
   // mover(id, destino): Error si no existe la tarea · Error si la columna destino está llena
   //   (¡comprueba ANTES de quitarla de su columna, o se perdería!) · la mueve y la devuelve
 
