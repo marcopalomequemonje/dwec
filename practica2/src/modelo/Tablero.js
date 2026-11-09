@@ -75,12 +75,15 @@ export class Tablero {
   }
   // mover(id, destino): Error si no existe la tarea · Error si la columna destino está llena
   //   (¡comprueba ANTES de quitarla de su columna, o se perdería!) · la mueve y la devuelve
-  mover(id,destino){
+  mover(id, destino) {
     const origen = this.dondeEsta(id);
-    if(origen === null){throw new Error (`No existe la tarea ${id}`)}
-    const columnaDestino = this.columna(destino)
-    if(columnaDestino.llena){
-      {throw new Error (`La columna ${destino} esta llena`)}
+    if (origen === null) { throw new Error(`No existe la tarea ${id}`) }
+    const columnaDestino = this.columna(destino);
+    if (origen.nombre === "Hecho" || origen.nombre === destino) {
+      throw new MovimientoNoPermitidoError(id, origen.nombre, destino)
+    }
+    if (columnaDestino.llena) {
+      throw new ColumnaLlenaError(columnaDestino)
     }
     const tarea = origen.quitar(id)
     return columnaDestino.añadir(tarea)
