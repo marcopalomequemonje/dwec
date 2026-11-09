@@ -75,14 +75,46 @@ export class Tablero {
   }
   // mover(id, destino): Error si no existe la tarea · Error si la columna destino está llena
   //   (¡comprueba ANTES de quitarla de su columna, o se perdería!) · la mueve y la devuelve
-  
+  mover(id,destino){
+    const origen = this.dondeEsta(id);
+    if(origen === null){throw new Error (`No existe la tarea ${id}`)}
+    const columnaDestino = this.columna(destino)
+    if(columnaDestino.llena){
+      {throw new Error (`La columna ${destino} esta llena`)}
+    }
+    const tarea = origen.quitar(id)
+    return columnaDestino.añadir(tarea)
+  }
 
   // completar(id): la mueve a «Hecho» y añade a «Por hacer» lo que devuelva tarea.alCompletar()
   //   ⚠️ Sin preguntar si es recurrente: eso es el polimorfismo
-
+  completar(id){
+    const tarea = this.mover(id,"Hecho")
+    for (const nueva of tarea.alCompletar()){
+      this.columna("Por hacer").añadir(nueva)
+    }
+    return tarea
+  }
   // resumen(hoy = new Date()): { porHacer, enCurso, hecho, vencidas }
   //   vencidas = las que estaVencida(hoy) y NO están en «Hecho»
-
+  resumen(hoy = new Date()) {
+    let vencidas = 0
+    for (const columna of this.columnas) {
+      if (columna.nombre !== "Hecho") {
+        for (const t of columna.tareas) {
+          if (t.estaVencida(hoy)) {
+            vencidas++;
+          }
+        }
+      }
+    }
+    return {
+      porHacer: this.columna("Por hacer").tareas.length,
+      enCurso: this.columna("En curso").tareas.length,
+      hecho: this.columna("Hecho").tareas.length,
+      vencidas: vencidas,
+    }
+  }
   // ✍️ A5 · Reglas (vuelves a mover y completar) ─────────────────────────────────
   //   - Columna llena → ColumnaLlenaError (en vez de un Error cualquiera)
   //   - Sacar una tarea de «Hecho», o «moverla» a la columna en la que ya está →
