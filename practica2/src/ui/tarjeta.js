@@ -4,7 +4,7 @@ import { formatear } from "../modelo/fechas.js";
 /** Tarea → <article class="tarjeta tarjeta--alta" data-id="3"> con su título y su límite */
 export function crearTarjeta(tarea, hoy = new Date()) {
   const tarjeta = document.createElement("article");
-  tarjeta.classList.add("tarjeta", `tarjeta--${tarea.prioridad}`);
+  tarjeta.classList.add("tarjeta", `tarjeta--${tarea.prioridad}`); 
   tarjeta.classList.toggle("tarjeta--vencida", tarea.estaVencida(hoy));
   tarjeta.dataset.id = tarea.id; // en el HTML: data-id="3" (siempre texto)
 
@@ -26,5 +26,19 @@ export function crearTarjeta(tarea, hoy = new Date()) {
 //   - Pintar dos veces NO puede duplicar: primero vacía. Pista: contenedor.replaceChildren(...)
 //   - Sin tareas: deja SOLO un <p class="vacia">Sin tareas</p>
 export function pintarLista(contenedor, tareas, hoy = new Date()) {
-  throw new Error("Sin hacer");
+
+  if (tareas.length===0){
+    const vacia = document.createElement("p");
+    vacia.className = "vacia";
+    vacia.textContent = "Sin tareas";
+    contenedor.replaceChildren(vacia);
+    return;
+  }
+  //VACIAR CONTENEDOR
+  contenedor.replaceChildren();
+  //METER UNA TARJETA POR TAREA
+  for (const tarea of tareas){
+    const tarjeta = crearTarjeta(tarea,hoy);
+    contenedor.append(tarjeta);
+  }
 }
