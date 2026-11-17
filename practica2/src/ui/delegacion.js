@@ -6,5 +6,15 @@
 //     del contenedor (contenedor.contains(...)), llama a manejador(elemento, evento)
 //   - Devuelve una función que quita el listener (removeEventListener con la MISMA función)
 export function delegar(contenedor, tipo, selector, manejador) {
-  throw new Error("Sin hacer");
+  const escuchador = (evento) => {
+    const elemento = evento.target.closest(selector);
+    if(!(elemento===null) && contenedor.contains(elemento) === true){
+      return manejador(elemento,evento);
+    }
+  }
+  contenedor.addEventListener(tipo, escuchador);
+  function quitarListener(){
+    return contenedor.removeEventListener(tipo, escuchador);
+  }
+  return quitarListener;
 }
