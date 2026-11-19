@@ -43,10 +43,51 @@ export function iniciarApp(raiz, tablero, { hoy = null, alCambiar = () => {} } =
   //   - [data-dato="vencidas"]: las vencidas de tablero.resumen(ahora)
   //   La fecha de hoy: const ahora = hoy ?? new Date();  (los tests pasan una fija)
   function pintar() {
-    throw new Error("Sin hacer");
-  }
+    //CREAMOS ESTA VARIABLE PARA LA FECHA Y SI NOS VIENE VACIA LE PONEMOS LA DE HOY POR DEFECTO
+    const ahora = hoy ?? new Date();
+    //RECORREMOS CADA COLUMNA DEL TABLERO 
+    for (const columna of tablero.columnas) {
+      //BUSCAMOS EN LA PAGINA LA .lista DE ESTA COLUMNA Y PINTAMOS SUS TAREAS ORDENADAS CON PINTARLISTA
+      const lista = columnas.querySelector(`[data-columna="${columna.nombre}"] .lista`);
+      pintarLista(lista, columna.ordenadas(), ahora);
+ 
+      //BOTONES: MIRAMOS EN ACCIONES CUALES LLEVA ESTA COLUMNA
+      const acciones = ACCIONES[columna.nombre];
+      //RECORREMOS LAS TARJETAS QUE ACABA DE PINTAR PINTARLISTA
+      for (const tarjeta of lista.querySelectorAll(".tarjeta")) {
+        //CADA ACCION ES UN ARRAY: EN LA POSICION 0 EL TEXTO Y EN LA 1 EL NOMBRE
+        for (const accion of acciones) {
+          const boton = document.createElement("button");
+          boton.type = "button";
+          boton.dataset.accion = accion[1];
+          boton.textContent = accion[0];
+          tarjeta.append(boton);
+        }
+      }
 
-  // 👀 Resuelto: avisar("texto") enseña el aviso; avisar("") lo esconde
+      const contador = columnas.querySelector(`[data-columna="${columna.nombre}"] .contador`);
+      const n = columna.tareas.length;
+      if (columna.limite) {
+        contador.textContent = `(${n}/${columna.limite})`;
+      } else {
+        contador.textContent = `(${n})`;
+      }
+    }
+ 
+    //SACAMOS LOS DATOS DEL RESUMEN DEL BLOQUE A
+    const datos = tablero.resumen(ahora);
+ 
+    const total = datos.porHacer + datos.enCurso + datos.hecho;
+    let porcentaje = 0;
+    if (total > 0) {
+      porcentaje = Math.round((datos.hecho / total) * 100);
+    }
+    resumen.querySelector('[data-dato="progreso"]').textContent = `${porcentaje} %`;
+ 
+    //VENCIDAS
+    resumen.querySelector('[data-dato="vencidas"]').textContent = datos.vencidas;
+  }
+ 
   function avisar(mensaje) {
     aviso.textContent = mensaje;
     aviso.hidden = mensaje === "";
