@@ -21,7 +21,29 @@ const ACCIONES = {
 //   - cadaDias (si viene): entero mayor que 0. Si es correcto pero no hay limite, el error va
 //     en «limite»: una tarea que se repite necesita fecha límite
 export function validar(datos) {
-  throw new Error("Sin hacer");
+  //SI AL FINAL ESTA VACIO NO HAY ERRORES
+  const errores = {};
+
+  //?? "" POR SI VIENE undefined, Y trim QUITA LOS ESPACIOS
+  const titulo = (datos.titulo ?? "").trim();
+  if (titulo === "") {
+    errores.titulo = "El título es obligatorio";
+  } else if (titulo.length > 80) {
+    errores.titulo = "El título no puede pasar de 80 caracteres";
+  }
+
+  //SOLO SI VIENE, SI NO ES UNA TAREA NORMAL
+  if (datos.cadaDias !== undefined) {
+    //isInteger DA false CON DECIMALES Y CON NaN
+    if (!Number.isInteger(datos.cadaDias) || datos.cadaDias <= 0) {
+      errores.cadaDias = "Tiene que ser un número entero mayor que 0";
+    } else if (!datos.limite) {
+      //VA EN limite PORQUE ES LO QUE FALTA
+      errores.limite = "Una tarea que se repite necesita fecha límite";
+    }
+  }
+
+  return errores;
 }
 
 /**
@@ -65,10 +87,11 @@ export function iniciarApp(raiz, tablero, { hoy = null, alCambiar = () => {} } =
         }
       }
 
+      //CONTADOR: SI TIENE LIMITE (n/limite), SI NO SOLO (n). EN MI COLUMNA SE LLAMA limiteWip Y ES null SI NO HAY
       const contador = columnas.querySelector(`[data-columna="${columna.nombre}"] .contador`);
       const n = columna.tareas.length;
-      if (columna.limite) {
-        contador.textContent = `(${n}/${columna.limite})`;
+      if (columna.limiteWip) {
+        contador.textContent = `(${n}/${columna.limiteWip})`;
       } else {
         contador.textContent = `(${n})`;
       }
@@ -77,6 +100,7 @@ export function iniciarApp(raiz, tablero, { hoy = null, alCambiar = () => {} } =
     //SACAMOS LOS DATOS DEL RESUMEN DEL BLOQUE A
     const datos = tablero.resumen(ahora);
  
+    //PROGRESO: EMPIEZA EN 0 PORQUE SI NO HAY TAREAS 0/0 DA NaN
     const total = datos.porHacer + datos.enCurso + datos.hecho;
     let porcentaje = 0;
     if (total > 0) {
@@ -100,11 +124,70 @@ export function iniciarApp(raiz, tablero, { hoy = null, alCambiar = () => {} } =
   //   Cualquier otro error → se relanza (es un fallo del programa).
   //   Pista: una función cambiar(accion) con el try/catch te sirve también para el B6.
 
+  //accion ES UNA FUNCION CON EL CAMBIO, ASI EL try/catch LO ESCRIBO UNA VEZ PARA EL B5 Y EL B6
+  function cambiar(accion) {
+    //INTENTA HACERLO, SI PETA SALTA AL catch
+    try {
+      accion();
+      //SI LLEGA AQUI HA IDO BIEN
+      avisar("");
+      pintar();
+      alCambiar(tablero);
+    } catch (error) {
+      //instanceof MIRA SI EL ERROR ES DE ESE TIPO (COLUMNA LLENA O MOVIMIENTO PROHIBIDO)
+      if (error instanceof ErrorTablero) {
+        avisar(error.message);
+      } else {
+        //CUALQUIER OTRO ES UN FALLO MIO, LO VUELVO A LANZAR PARA NO ESCONDERLO
+        throw error;
+      }
+    }
+  }
+
+  //UN SOLO LISTENER EN #columnas CON MI delegar DEL B3, ASI NO SE PIERDE AL REPINTAR
+  delegar(columnas, "click", "[data-accion]", (boton) => {
+    //SUBO DEL BOTON A SU TARJETA
+    const tarjeta = boton.closest(".tarjeta");
+    //dataset DA TEXTO Y MIS IDS SON NUMEROS
+    const id = Number(tarjeta.dataset.id);
+    const accion = boton.dataset.accion;
+
+    //LE PASO EL CAMBIO COMO FUNCION, SE EJECUTA DENTRO DEL try
+    cambiar(() => {
+      if (accion === "empezar") {
+        tablero.mover(id, "En curso");
+      } else if (accion === "volver") {
+        tablero.mover(id, "Por hacer");
+      } else if (accion === "completar") {
+        tablero.completar(id);
+      }
+    });
+  });
+
   // ✍️ B6 · submit de `form`: preventDefault, leerFormulario, validar y mostrarErrores. Si hay errores,
   //   no se crea nada. Si no, tablero.crearTarea(datos) (como un cambio más) y form.reset().
+  form.addEventListener("submit", (evento) => {
+    //QUE NO RECARGUE LA PAGINA
+    evento.preventDefault();
+
+    const datos = leerFormulario(form);
+    const errores = validar(datos);
+    //MI mostrarErrores DEL B2
+    mostrarErrores(form, errores);
+
+    //SI EL OBJETO TIENE ALGUNA CLAVE HAY ERRORES
+    if (Object.keys(errores).length > 0) {
+      return;
+    }
+
+    //CREAR LA TAREA ES UN CAMBIO MAS, ASI REPINTA IGUAL QUE LOS BOTONES
+    cambiar(() => {
+      tablero.crearTarea(datos);
+      //VACIA EL FORMULARIO
+      form.reset();
+    });
+  });
 
   pintar();
   return { pintar };
 }
-
-(void ACCIONES, ErrorTablero, delegar, leerFormulario, mostrarErrores, pintarLista); // (borra esta línea cuando los uses)
