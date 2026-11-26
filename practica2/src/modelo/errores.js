@@ -36,3 +36,10 @@ export class MovimientoNoPermitidoError extends ErrorTablero{
         this.hasta = hasta
     }
 }
+ // EJ 4 DEFENSA
+export class PruebasFallidasError extends ErrorTablero{
+    constructor(fallidos){
+        super(`Pruebas sin superar: ${fallidos.join(", ")}`);
+        this.fallidos = fallidos;
+    }
+}

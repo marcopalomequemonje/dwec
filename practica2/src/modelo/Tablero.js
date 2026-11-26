@@ -5,6 +5,7 @@ import { Columna } from "./Columna.js";
 import { ColumnaLlenaError, MovimientoNoPermitidoError } from "./errores.js";
 import { Tarea } from "./Tarea.js";
 import { TareaRecurrente } from "./TareaRecurrente.js";
+import { TareaConDispositivos } from "./TareaConDispositivos.js";
 import { aDatos, desdeDatos } from "./serializar.js";
 
 export class Tablero {
@@ -46,6 +47,9 @@ export class Tablero {
   //   y la devuelve. datos es un objeto { titulo, prioridad, limite, cadaDias }: saca cada campo
   //   y pásaselo al constructor, en su orden (new Tarea(datos) NO vale: espera el título)
   crearTarea(datos) {
+    if(datos.dispositivos !== undefined) {
+      tarea = new TareaConDispositivos(datos.titulo, datos.prioridad, datos.limite, datos.dispositivos);
+    }
     let tarea;
     if (datos.cadaDias !== undefined) {
       tarea = new TareaRecurrente(datos.titulo, datos.prioridad, datos.limite, datos.cadaDias);
@@ -88,6 +92,7 @@ export class Tablero {
       throw new ColumnaLlenaError(columnaDestino)
     }
     const tarea = origen.quitar(id)
+    tarea.comprobarPaso(origen.nombre, destino);
     return columnaDestino.añadir(tarea)
   }
 

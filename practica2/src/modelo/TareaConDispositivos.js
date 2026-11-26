@@ -1,4 +1,5 @@
 import { Tarea } from "./Tarea.js";
+import { PruebasFallidasError } from "./errores.js";
 
 export class TareaConDispositivos extends Tarea {
   #dispositivos = new Map();
@@ -30,9 +31,10 @@ export class TareaConDispositivos extends Tarea {
   }
 
   comprobarPaso(desde, hasta) {
-    const fallidos = this.#dispositivos.filter((d) => 
-      d.fallos !== 0).map((d) => 
-        d.nombre);
-    if (hasta === "Hecho" && fallidos.length > 0) throw new PruebasFallidasError(fallidos);
+    if (hasta !== "Hecho") return;            // la regla es para DARLA POR HECHA
+    const fallidos = this.#dispositivos
+    .filter((d) => d.fallos !== 0)
+    .map((d) => d.nombre);
+    if (fallidos.length > 0) throw new PruebasFallidasError(fallidos);
   }
 }
