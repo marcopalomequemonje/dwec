@@ -46,6 +46,49 @@ export function validar(datos) {
   return errores;
 }
 
+//FORMULARIO DEFENSA B
+const crear = (etiqueta, datos) => Object.assign(document.createElement(etiqueta), datos);
+
+function crearFormulario(tarea) {
+  const form = crear("form", { noValidate: true });
+  form.dataset.form = "posponer";
+  const etiqueta = crear("label", { textContent: `Días que se pospone «${tarea.titulo}»` });
+  etiqueta.append(crear("input", { name: "dias", type: "number", value: 1 }));
+  const error = crear("p", { className: "error" });
+  error.dataset.errorDe = "dias";
+  const enviar = crear("button", { type: "submit", textContent: "Guardar" });
+  form.append(etiqueta, error, enviar, crearBoton("Cancelar", "cancelar"));
+  return form;
+}
+
+// crearBoton("Guardar", "guardar")  →  <button type="button" data-accion="guardar">Guardar</button>
+function crearBoton(texto, accion) {
+  const boton = document.createElement("button");   // 1. crea un <button> vacío (aún no está en la página)
+  boton.type = "button";                              // 2. type="button": así NO envía el formulario
+  boton.textContent = texto;                          // 3. el texto que se ve
+  boton.dataset.accion = accion;                      // 4. data-accion="…": lo que lee tu listener de clics
+  return boton;                                       // 5. lo devuelve; quien la llama decide dónde ponerlo (append)
+}
+
+if (columna.nombre === "Por hacer" && tablero.buscar(Number(tarjeta.dataset.id)).limite)
+  tarjeta.append(crearBoton("Posponer y empezar", "posponer"));
+
+if (accion === "posponer") {
+  // cierra el formulario que haya abierto: columnas.querySelector("form")?.remove()
+  // TU TURNO: añade crearFormulario(tarea) a ESA tarjeta y pon el foco en su input
+  return;   // abrir no cambia nada: ni alCambiar ni repintar
+}
+if (accion === "cancelar") return columnas.querySelector("form")?.remove();
+
+delegar(columnas, "submit", "form", (formulario, evento) => {
+  evento.preventDefault();                                    // sin recargar la página
+  const tarea = tablero.buscar(Number(formulario.closest(".tarjeta").dataset.id));
+  const valor = formulario.elements.dias.value.trim();     // SIEMPRE un string
+  const mensaje = revisar(valor, tarea, tablero, hoy ?? new Date());
+  mostrarErrores(formulario, { dias: mensaje });          // pinta o borra el mensaje bajo el campo
+  if (mensaje === "") cambiar(() => aplicar(tablero, tarea, valor));
+});
+
 /**
  * Arranca la interfaz dentro de raiz (el <main id="app">). Los listeners se ponen UNA vez aquí;
  * pintar() solo cambia nodos, así que repintar no los duplica.
