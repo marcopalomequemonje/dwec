@@ -29,4 +29,10 @@ export class TareaConDispositivos extends Tarea {
     this.#dispositivos.set(nombre, fallos);
   }
 
+  comprobarPaso(desde, hasta) {
+    const fallidos = this.#dispositivos.filter((d) => 
+      d.fallos !== 0).map((d) => 
+        d.nombre);
+    if (hasta === "Hecho" && fallidos.length > 0) throw new PruebasFallidasError(fallidos);
+  }
 }

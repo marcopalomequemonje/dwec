@@ -76,7 +76,9 @@ export class Tablero {
   // mover(id, destino): Error si no existe la tarea · Error si la columna destino está llena
   //   (¡comprueba ANTES de quitarla de su columna, o se perdería!) · la mueve y la devuelve
   mover(id, destino) {
+
     const origen = this.dondeEsta(id);
+    tarea.comprobarPaso(origen.nombre, destino);
     if (origen === null) { throw new Error(`No existe la tarea ${id}`) }
     const columnaDestino = this.columna(destino);
     if (origen.nombre === "Hecho" || origen.nombre === destino) {
